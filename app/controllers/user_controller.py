@@ -36,7 +36,6 @@ def atualizar_usuario(id, data):
 
     return success_response(user_schema.dump(usuario))
 
-
 def deletar_usuario(id):
     usuario = User.query.get_or_404(id)
 

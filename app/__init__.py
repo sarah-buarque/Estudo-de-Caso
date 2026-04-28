@@ -6,7 +6,7 @@ from .config import Config
 from .extensions import db, ma, migrate
 from .routes.messages import messages_bp
 from .routes.users import users_bp
-
+from .routes.service import service_bp
 
 def create_app():
     app = Flask(__name__)
@@ -17,10 +17,11 @@ def create_app():
     migrate.init_app(app, db)
     ma.init_app(app)
 
-    from .models import message, user  # noqa: F401
+    from .models import message, user, service, orders  # noqa: F401
 
     app.register_blueprint(messages_bp, url_prefix="/messages")
     app.register_blueprint(users_bp, url_prefix="/users")
+    app.register_blueprint(service_bp, url_prefix="/service")
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):
