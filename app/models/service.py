@@ -7,4 +7,11 @@ class Service(db.Model):
     nome = db.Column(db.String(255), nullable=False)
     preco_base = db.Column(db.Integer, nullable=False)
     descricao = db.Column(db.String(500), nullable=False)
-    orders = db.relationship("Orders", backref="orders", lazy=True, cascade="all, delete-orphan")
+
+    # 🔴 COMENTADO PARA TESTE (ISOLAMENTO DO ERRO)
+    # orders = db.relationship(
+    #     "Orders",
+    #     backref="service",
+    #     lazy=True,
+    #     cascade="all, delete-orphan"
+    # )

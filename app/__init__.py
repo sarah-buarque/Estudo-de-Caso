@@ -1,12 +1,10 @@
 from flask import Flask
 from marshmallow import ValidationError
-from http.client import HTTPException
+from werkzeug.exceptions import HTTPException
 
 from .config import Config
 from .extensions import db, ma, migrate
-from .routes.messages import messages_bp
-from .routes.users import users_bp
-from .routes.service import service_bp
+
 
 def create_app():
     app = Flask(__name__)
@@ -17,11 +15,18 @@ def create_app():
     migrate.init_app(app, db)
     ma.init_app(app)
 
-    from .models import message, user, service, orders  # noqa: F401
+    # 🔍 DEBUG (isolando problema do service)
+    print("SERVICE IMPORT OK")
+
+    from .routes.messages import messages_bp
+    from .routes.users import users_bp
+    from .routes.service import service_bp
+
+    print("SERVICE BP LOADED")
 
     app.register_blueprint(messages_bp, url_prefix="/messages")
     app.register_blueprint(users_bp, url_prefix="/users")
-    app.register_blueprint(service_bp, url_prefix="/service")
+    app.register_blueprint(service_bp, url_prefix="/services")
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):
@@ -33,10 +38,10 @@ def create_app():
 
     @app.errorhandler(Exception)
     def handle_generic_exception(e):
-        # Passa o código de erro correto se for um HTTPException
         if isinstance(e, HTTPException):
             return e
-        # Se for uma exceção inesperada (ex: bug no Python), retorna 500
         return {"success": False, "message": "Erro interno do servidor"}, 500
-    
+
+    print("URL MAP:", app.url_map)
+
     return app
