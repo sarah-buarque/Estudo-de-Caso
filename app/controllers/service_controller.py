@@ -26,10 +26,10 @@ def listar_service():
     try:
         services = Service.query.all()
 
-        # 🔍 DEBUG: elimina schema como causa do erro
+    
         return {
             "success": True,
-            "data": [s.nome for s in services]  # sem schema temporariamente
+            "data": [s.nome for s in services]  
         }
 
     except Exception as e:

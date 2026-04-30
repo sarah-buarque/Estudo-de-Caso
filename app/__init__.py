@@ -15,18 +15,19 @@ def create_app():
     migrate.init_app(app, db)
     ma.init_app(app)
 
-    # 🔍 DEBUG (isolando problema do service)
     print("SERVICE IMPORT OK")
 
     from .routes.messages import messages_bp
     from .routes.users import users_bp
     from .routes.service import service_bp
+    from .routes.orders import orders_bp 
 
     print("SERVICE BP LOADED")
 
     app.register_blueprint(messages_bp, url_prefix="/messages")
     app.register_blueprint(users_bp, url_prefix="/users")
     app.register_blueprint(service_bp, url_prefix="/services")
+    app.register_blueprint(orders_bp, url_prefix="/orders") 
 
     @app.errorhandler(ValidationError)
     def handle_validation_error(err):

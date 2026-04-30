@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify
+from app.models.service import Service
 from app.controllers.service_controller import (
     listar_service,
     criar_service,
@@ -29,5 +30,6 @@ def patch_service(id):
 def delete_service(id):
     r, s = deletar_service(id)
     return jsonify(r), s
+
 
 

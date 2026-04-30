@@ -3,8 +3,8 @@ from app.models.orders import Orders
 from app.schemas.orders_schema import OrdersSchema
 from app.utils.response import success_response
 
-orders_schema = OrdersSchema()              
-orders_schema = OrdersSchema(many=True)    
+order_schema = OrdersSchema()
+orders_schema = OrdersSchema(many=True)
 
 def criar_order(data):
     dados_validados = order_schema.load(data)
@@ -18,7 +18,7 @@ def criar_order(data):
 
 def listar_orders():
     orders = Orders.query.all()
-    return success_response(orders_schema.dump(orders))
+    return success_response(orders_schema.dump(orders), 200)
 
 def atualizar_order(id, data):
     order = Orders.query.get_or_404(id)
@@ -30,7 +30,7 @@ def atualizar_order(id, data):
 
     db.session.commit()
 
-    return success_response(order_schema.dump(order))
+    return success_response(order_schema.dump(order), 200)
 
 def deletar_order(id):
     order = Orders.query.get_or_404(id)

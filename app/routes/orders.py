@@ -27,5 +27,5 @@ def patch_order(id):
 
 @orders_bp.route("/<int:id>", methods=["DELETE"])
 def delete_order(id):
-    response, status = deletar_order(id)
-    return jsonify(response), status
+    _, status = deletar_order(id)
+    return "", status
