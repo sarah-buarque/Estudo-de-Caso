@@ -12,6 +12,7 @@ messages_bp = Blueprint("messages", __name__)
 
 
 @messages_bp.route("/", methods=["GET"])
+@jwt_required()
 def get_messages():
     response, status = listar_mensagens()
     return jsonify(response), status
