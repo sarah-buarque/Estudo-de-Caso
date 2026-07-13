@@ -1,5 +1,6 @@
 from flask import Blueprint, request, jsonify
 from app.models.service import Service
+from flask_jwt_extended import jwt_required
 from app.controllers.service_controller import (
     listar_service,
     criar_service,
@@ -15,18 +16,21 @@ def get_service():
     return jsonify(response), status
 
 @service_bp.route("/", methods=["POST"])
+@jwt_required()
 def post_service():
     data = request.get_json()
     response, status = criar_service(data)
     return jsonify(response), status
 
 @service_bp.route("/<int:id>", methods=["PATCH"])
+@jwt_required()
 def patch_service(id):
     data = request.get_json()
     r, s = atualizar_service(id, data)
     return jsonify(r), s
 
 @service_bp.route("/<int:id>", methods=["DELETE"])
+@jwt_required()
 def delete_service(id):
     r, s = deletar_service(id)
     return jsonify(r), s
